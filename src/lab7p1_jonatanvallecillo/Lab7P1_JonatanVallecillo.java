@@ -93,7 +93,7 @@ public class Lab7P1_JonatanVallecillo {
         Random ran = new Random();
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz[i].length; j++) {
-                matriz[i][j] = rand.nextInt(10);
+                matriz[i][j] = rand.nextInt(9) + 1;
             }
         }
         return matriz;
@@ -152,31 +152,44 @@ public class Lab7P1_JonatanVallecillo {
         int cantidad = 0;
         int sumaF = 0;
         int sumaC = 0;
+        int sumaT = 0;
+        int sumaTotal = 0;
+        int numero = 0;
         for(int i = 0; i < matriz.length; i++){
             for(int j = 0; j < matriz[i].length; j++){
                 cantidad = matriz[i][j];
                 int cantidad2 = cantidad;
-                
+                int cantidad3 = cantidad;
+                sumaF = 0;
+                sumaC = 0;
                 for(int u = 0; u < matriz.length; u++){
                     for(int v = 0; v < matriz[i].length; v++){
                         if(u == i && v != j && cantidad2 > 0){
+                            sumaF += matriz[u][v];
                             cantidad2 --;
-                        }else if(u != i && v == j){
-                            if(cantidad - v >= 0){
-                                sumaC += matriz[u][v];
-                            }else{
-                                
-                            }
+                        }else if(u == u && v == j){
+                            cantidad2 = cantidad;
+                            cantidad3 = cantidad;
+                        }else if(u != i && v == j && cantidad3 > 0){
+                            sumaC += matriz[u][v];
+                            cantidad3 --;
                         }
+                        sumaT = sumaC +sumaF;
                     }
+                }
+                if((sumaT < sumaTotal) || (i == 0 && j == 0)){
+                    sumaTotal = sumaT;
+                    numero = matriz[i][j];
                 }
             }
         }
+        
+        System.out.println("El digito mas solitario es "+numero+" con indice de soledad de "+sumaTotal);
+        
     }
     
     public static int [][] matrizRotada(int [][] matriz, String rotacion){
         int [][] temporal = matriz;
-        int [][] matriz2 = matriz;
         char carac = ' ';
         int dimension1 = 0;
         int dimension2 = 0;
@@ -209,30 +222,27 @@ public class Lab7P1_JonatanVallecillo {
                 car = ""+carac2;
                 pos2 = Integer.parseInt(car);
             }
-            
         }
-        System.out.println("pos1 "+pos1);
-        System.out.println("pos2 "+pos2);
-        int intercambio = 0;
-        int intercambio2 = 0;
-    
         
         for(int i = 0; i < temporal.length; i++){
             for(int j = 0; j < temporal[i].length; j++){
                 if(dimension1 == 1 && dimension2 == 3){
-                    temporal[pos2][j] = matriz2[pos1][j];
-                    temporal[pos1][j] = matriz2[pos2][j];
+                    temporal[pos1][j] = matriz[pos2][j];
+                    temporal[pos2][j] = matriz[pos1][j];
                 }else if(dimension1 == 2 && dimension2 == 4){
-                    temporal[i][pos2] = matriz2[i][pos1];
-                    temporal[i][pos1] = matriz2[i][pos2];
-                }else if((dimension1 == 1 && dimension2 == 2)){
-                    temporal[i][pos2] = matriz2[pos1][j];
-                    temporal[pos1][j] = matriz2[i][pos2];
+                    temporal[i][pos2] = matriz[i][pos1];
+                    temporal[i][pos1] = matriz[i][pos2];
+                }else if(dimension1 == 1 && dimension2 == 4){
+                    temporal[i][pos1] = matriz[pos2][j];
+                    temporal[pos2][j] = matriz[i][pos1];
+                }else if(dimension1 == 2 && dimension2 == 3){
+                    temporal[pos1][j] = matriz[i][pos2];
+                    temporal[i][pos2] = matriz[pos1][j];
                 }
             }
         }
         
         return temporal;
-    }
+    } //Ejercicio 3
         
 }
