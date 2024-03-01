@@ -76,7 +76,8 @@ public class Lab7P1_JonatanVallecillo {
                     
                     System.out.println("Ingrese comando de rotacion: ");
                     String rotacion = leer1.nextLine();
-                    matrizRotada(matriz, rotacion);
+                    matriz = matrizRotada(matriz, rotacion);
+                    imprimirMatriz(matriz);
                     
                     System.out.println();
                     break;
@@ -92,7 +93,7 @@ public class Lab7P1_JonatanVallecillo {
         Random ran = new Random();
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz[i].length; j++) {
-                matriz[i][j] = rand.nextInt(5) + 2;
+                matriz[i][j] = rand.nextInt(10);
             }
         }
         return matriz;
@@ -174,32 +175,60 @@ public class Lab7P1_JonatanVallecillo {
     }
     
     public static int [][] matrizRotada(int [][] matriz, String rotacion){
-        int [][] temporal = new int [matriz.length][matriz.length];
+        int [][] temporal = matriz;
+        int [][] matriz2 = matriz;
         char carac = ' ';
+        int dimension1 = 0;
+        int dimension2 = 0;
+        int pos1 = 0;
+        int pos2 = 0;
         
         for(int i = 0; i < rotacion.length(); i++){
-            int dimension1 = 0;
-            int dimension2 = 0;
-            int pos1 = 0;
-            int posy = 0;
             carac = rotacion.charAt(i);
+            char carac2 = ' ';
+            String car = " ";
+            
             if(carac == 'f' && i == 0){
                 dimension1 = 1;
-                pos1 = rotacion.charAt(i+1);
+                carac2 = rotacion.charAt(i+1);
+                car = ""+carac2;
+                pos1 = Integer.parseInt(car);
             }else if(carac == 'c' && i == 0){
-                dimension1 = 0;
-                pos1 = rotacion.charAt(i+1);
-            }else if(carac == 'f'){
-                dimension2 = 1;
-            }else if(carac == 'c'){
-                dimension2 = 0;
+                dimension1 = 2;
+                carac2 = rotacion.charAt(i+1);
+                car = ""+carac2;
+                pos1 = Integer.parseInt(car);
+            }else if(carac == 'f' && i == 3){
+                dimension2 = 3;
+                carac2 = rotacion.charAt(i+1);
+                car = ""+carac2;
+                pos2 = Integer.parseInt(car);
+            }else if(carac == 'c' && i == 3){
+                dimension2 = 4;
+                carac2 = rotacion.charAt(i+1);
+                car = ""+carac2;
+                pos2 = Integer.parseInt(car);
             }
             
         }
+        System.out.println("pos1 "+pos1);
+        System.out.println("pos2 "+pos2);
+        int intercambio = 0;
+        int intercambio2 = 0;
+    
         
         for(int i = 0; i < temporal.length; i++){
             for(int j = 0; j < temporal[i].length; j++){
-                
+                if(dimension1 == 1 && dimension2 == 3){
+                    temporal[pos2][j] = matriz2[pos1][j];
+                    temporal[pos1][j] = matriz2[pos2][j];
+                }else if(dimension1 == 2 && dimension2 == 4){
+                    temporal[i][pos2] = matriz2[i][pos1];
+                    temporal[i][pos1] = matriz2[i][pos2];
+                }else if((dimension1 == 1 && dimension2 == 2)){
+                    temporal[i][pos2] = matriz2[pos1][j];
+                    temporal[pos1][j] = matriz2[i][pos2];
+                }
             }
         }
         
